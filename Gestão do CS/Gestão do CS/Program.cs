@@ -4,37 +4,30 @@ using System;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        // Criando instâncias de Pacientes e Funcionários
-        var paciente1 = new Paciente("João Silva", 35);
-        var paciente2 = new Paciente("Maria Souza", 28);
+        // Criando um quarto
+        var quarto1 = new Quarto(101);
 
-        var funcionario1 = new Funcionario("Dr. Carlos", Categoria.Medico);
-        var funcionario2 = new Funcionario("Ana Oliveira", Categoria.Enfermeiro);
+        // Criando duas camas
+        var cama1 = new Cama(1, true);
+        var cama2 = new Cama(2, false);
 
-        // Criando a instância do Centro de Saúde
-        var centroSaude = new CentroSaude();
+        // Adicionando camas ao quarto
+        quarto1.AdicionarCama(cama1); // Deve adicionar com sucesso
+        quarto1.AdicionarCama(cama2); // Deve adicionar com sucesso
 
-        // Adicionando pacientes e funcionários
-        centroSaude.AdicionarPaciente(paciente1);
-        centroSaude.AdicionarPaciente(paciente2);
+        // Tentando adicionar uma terceira cama (deve falhar)
+        var cama3 = new Cama(3, true);
+        quarto1.AdicionarCama(cama3); // Deve mostrar uma mensagem de erro
 
-        centroSaude.AdicionarFuncionario(funcionario1);
-        centroSaude.AdicionarFuncionario(funcionario2);
+        // Exibindo o estado do quarto
+        Console.WriteLine(quarto1.ToString());
 
-        // Mostrar os pacientes
-        Console.WriteLine("Pacientes Cadastrados:");
-        foreach (var paciente in centroSaude.ObterPacientes())
-        {
-            Console.WriteLine(paciente.ToString());
-        }
+        // Removendo uma cama
+        quarto1.RemoverCama(1);
 
-        // Mostrar os funcionários
-        Console.WriteLine("\nFuncionários Cadastrados:");
-        foreach (var funcionario in centroSaude.ObterFuncionarios())
-        {
-            Console.WriteLine(funcionario.ToString());
-        }
+        // Exibindo o estado atualizado do quarto
+        Console.WriteLine(quarto1.ToString());
     }
 }
