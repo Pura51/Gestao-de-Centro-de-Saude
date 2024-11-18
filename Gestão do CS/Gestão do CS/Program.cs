@@ -1,33 +1,55 @@
-﻿using CentroSaudeProject.Classes;
-using CentroSaudeProject.Enums; // Importa o Enum TipoExame
-using System;
+﻿using System;
+using Menus.Menu;
+using CentroSaudeProject.Classes;
+using CentroSaudeProject.Enums;
 
-class Program
+namespace GestaoCentroSaude
 {
-    static void Main(string[] args)
+    internal class Program
     {
-        // Criando um quarto
-        var quarto1 = new Quarto(101);
+        static void Main(string[] args)
+        {
+            // Criação da instância de CentroSaude
+            CentroSaude centroSaude = new CentroSaude();
 
-        // Criando duas camas
-        var cama1 = new Cama(1, true);
-        var cama2 = new Cama(2, false);
+            bool executar = true;
 
-        // Adicionando camas ao quarto
-        quarto1.AdicionarCama(cama1); // Deve adicionar com sucesso
-        quarto1.AdicionarCama(cama2); // Deve adicionar com sucesso
+            while (executar)
+            {
+                Console.Clear();
+                Console.WriteLine("=== Sistema de Gestão do Centro de Saúde ===");
+                Console.WriteLine("1. Gestão de Funcionários");
+                Console.WriteLine("2. Gestão de Pacientes");
+                Console.WriteLine("3. Gestão de Quartos");
+                Console.WriteLine("0. Sair");
+                Console.Write("Escolha uma opção: ");
 
-        // Tentando adicionar uma terceira cama (deve falhar)
-        var cama3 = new Cama(3, true);
-        quarto1.AdicionarCama(cama3); // Deve mostrar uma mensagem de erro
+                string opcao = Console.ReadLine();
 
-        // Exibindo o estado do quarto
-        Console.WriteLine(quarto1.ToString());
-
-        // Removendo uma cama
-        quarto1.RemoverCama(1);
-
-        // Exibindo o estado atualizado do quarto
-        Console.WriteLine(quarto1.ToString());
+                switch (opcao)
+                {
+                    case "1":
+                        // Passa a instância do CentroSaude para o menu de funcionários
+                        MenuFuncionarios.ExibirMenu(centroSaude);
+                        break;
+                    case "2":
+                        // Passa a instância do CentroSaude para o menu de pacientes
+                        MenuPacientes.ExibirMenu(centroSaude);
+                        break;
+                    case "3":
+                        // Passa a instância do CentroSaude para o menu de quartos
+                        MenuQuartos.ExibirMenu(centroSaude);
+                        break;
+                    case "0":
+                        executar = false;
+                        Console.WriteLine("Encerrando o sistema...");
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Pressione qualquer tecla para continuar...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
     }
 }

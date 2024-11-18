@@ -2,7 +2,7 @@
 using CentroSaudeProject.Enums;
 using System.Xml.Linq;
 
-namespace CentroSaudeProject.Classes // Corrigindo o namespace
+namespace CentroSaudeProject.Classes 
 {
     public class CentroSaude
     {
@@ -11,6 +11,7 @@ namespace CentroSaudeProject.Classes // Corrigindo o namespace
         private List<Consulta> Consultas { get; set; } = new List<Consulta>();
         private List<Exame> Exames { get; set; } = new List<Exame>();
         private List<Cama> Camas { get; set; } = new List<Cama>();
+        private List<Quarto> Quartos { get; set; } = new List<Quarto>();
 
         public void AdicionarPaciente(Paciente paciente)
         {

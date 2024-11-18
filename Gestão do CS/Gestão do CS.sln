@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestão do CS", "Gestão do CS\Gestão do CS.csproj", "{FBAC9475-7431-4A2E-AB58-9B6B80133011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gestão do CS", "Gestão do CS\Gestão do CS.csproj", "{FBAC9475-7431-4A2E-AB58-9B6B80133011}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentrodeSaudeProject", "Classes\CentrodeSaudeProject.csproj", "{EE157CE3-35DE-4126-A9EF-5909CDA8BF12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentrodeSaudeProject", "Classes\CentrodeSaudeProject.csproj", "{EE157CE3-35DE-4126-A9EF-5909CDA8BF12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menus", "Menus\Menus.csproj", "{4EAE2350-3120-46F9-B973-2700864B3FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EE157CE3-35DE-4126-A9EF-5909CDA8BF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE157CE3-35DE-4126-A9EF-5909CDA8BF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE157CE3-35DE-4126-A9EF-5909CDA8BF12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EAE2350-3120-46F9-B973-2700864B3FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EAE2350-3120-46F9-B973-2700864B3FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EAE2350-3120-46F9-B973-2700864B3FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EAE2350-3120-46F9-B973-2700864B3FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

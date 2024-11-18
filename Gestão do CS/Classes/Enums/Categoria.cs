@@ -3,7 +3,6 @@
     public enum Categoria
     {
         Medico,
-        Enfermeiro,
-        Administrativo
+        Enfermeiro
     }
 }

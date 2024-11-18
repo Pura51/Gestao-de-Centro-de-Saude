@@ -8,7 +8,7 @@ namespace CentroSaudeProject.Classes
         public int Id { get; private set; } // Identificador único do exame
         public string Nome { get; set; } // Nome do exame (ex: "Raio-X", "Sangue")
         public DateTime Data { get; set; } // Data do exame
-        public string Resultado { get; set; } // Resultado do exame (pode ser vazio inicialmente)
+        public string Diagnostico { get; set; } // Diagnostico do exame (pode ser vazio inicialmente)
         public Paciente Paciente { get; set; } // Paciente associado ao exame
         public Funcionario Medico { get; set; } // Médico responsável pelo exame
 
@@ -22,20 +22,20 @@ namespace CentroSaudeProject.Classes
             Data = data;
             Paciente = paciente;
             Medico = medico;
-            Resultado = "Pendente"; // Define o resultado padrão como "Pendente"
+            Diagnostico = "Pendente"; // Define o resultado padrão como "Pendente"
         }
 
         // Método para atualizar o resultado do exame
-        public void AtualizarResultado(string resultado)
+        public void AtualizarResultado(string diagnostico)
         {
-            Resultado = resultado;
-            Console.WriteLine($"Resultado do exame {Id} ({Nome}) atualizado: {Resultado}");
+            Diagnostico = diagnostico;
+            Console.WriteLine($"Resultado do exame {Id} ({Nome}) atualizado: {Diagnostico}");
         }
 
         // Método para exibir informações do exame
         public override string ToString()
         {
-            return $"Exame {Id}: {Nome} | Data: {Data:dd/MM/yyyy} | Paciente: {Paciente.Nome} | Médico: {Medico.Nome} | Resultado: {Resultado}";
+            return $"Exame {Id}: {Nome} | Data: {Data:dd/MM/yyyy} | Paciente: {Paciente.Nome} | Médico: {Medico.Nome} | Resultado: {Diagnostico}";
         }
     }
 }

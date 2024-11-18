@@ -1,5 +1,4 @@
-﻿using CentrodeSaudeProject.Classes;
-
+﻿
 namespace CentroSaudeProject.Classes
 {
     public class Cama
