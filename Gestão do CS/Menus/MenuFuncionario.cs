@@ -45,63 +45,11 @@ namespace Menus.Menu
         // Alteração do método AdicionarFuncionario para receber CentroSaude como argumento
         private static void AdicionarFuncionario(CentroSaude centroSaude)
         {
-            Console.Clear();
-            Console.WriteLine("=== Adicionar Funcionário ===");
-
-            Console.Write("Nome do Funcionário: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("Idade do Funcionário: ");
-            if (!int.TryParse(Console.ReadLine(), out int idade))
-            {
-                Console.WriteLine("Idade inválida. Pressione qualquer tecla para retornar ao menu.");
-                Console.ReadKey();
-                return;
-            }
-
-            Console.WriteLine("Escolha a Categoria:");
-            foreach (var categoria in Enum.GetValues(typeof(Categoria)))
-            {
-                Console.WriteLine($"{(int)categoria}. {categoria}");
-            }
-
-            Console.Write("Digite o número correspondente à categoria: ");
-            if (!int.TryParse(Console.ReadLine(), out int categoriaEscolhida) || !Enum.IsDefined(typeof(Categoria), categoriaEscolhida))
-            {
-                Console.WriteLine("Categoria inválida. Pressione qualquer tecla para retornar ao menu.");
-                Console.ReadKey();
-                return;
-            }
-
-            var funcionario = new Funcionario(nome, idade, (Categoria)categoriaEscolhida);
-            centroSaude.AdicionarFuncionario(funcionario);
-
-            Console.WriteLine($"Funcionário {nome} adicionado com sucesso! Pressione qualquer tecla para retornar ao menu.");
-            Console.ReadKey();
         }
 
         // Alteração do método VerFuncionarios para receber CentroSaude como argumento
         private static void VerFuncionarios(CentroSaude centroSaude)
         {
-            Console.Clear();
-            Console.WriteLine("=== Lista de Funcionários ===");
-
-            List<Funcionario> funcionarios = centroSaude.ObterFuncionarios();
-
-            if (funcionarios.Count == 0)
-            {
-                Console.WriteLine("Nenhum funcionário cadastrado.");
-            }
-            else
-            {
-                foreach (var funcionario in funcionarios)
-                {
-                    Console.WriteLine(funcionario);
-                }
-            }
-
-            Console.WriteLine("\nPressione qualquer tecla para retornar ao menu.");
-            Console.ReadKey();
         }
     }
 }

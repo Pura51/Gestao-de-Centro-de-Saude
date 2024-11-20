@@ -1,41 +1,29 @@
 ﻿using System;
+using CentroSaudeProject.Enums;
 
 namespace CentroSaudeProject.Classes
 {
     public class Exame
     {
-        // Atributos
-        public int Id { get; private set; } // Identificador único do exame
-        public string Nome { get; set; } // Nome do exame (ex: "Raio-X", "Sangue")
-        public DateTime Data { get; set; } // Data do exame
-        public string Diagnostico { get; set; } // Diagnostico do exame (pode ser vazio inicialmente)
-        public Paciente Paciente { get; set; } // Paciente associado ao exame
-        public Funcionario Medico { get; set; } // Médico responsável pelo exame
+        public int Id { get; private set; }
+        public string Nome { get; set; }
+        public DateTime Data { get; set; }
+        public string Resultado { get; set; }
+        public TipoExame Tipo { get; set; }
 
-        private static int ProximoId = 1; // Gerador automático de ID
+        private static int ProximoId = 1;
 
-        // Construtor
-        public Exame(string nome, DateTime data, Paciente paciente, Funcionario medico)
+        public Exame(string nome, DateTime data, TipoExame tipo)
         {
             Id = ProximoId++;
             Nome = nome;
             Data = data;
-            Paciente = paciente;
-            Medico = medico;
-            Diagnostico = "Pendente"; // Define o resultado padrão como "Pendente"
+            Tipo = tipo;
+            Resultado = "Pendente";
         }
 
-        // Método para atualizar o resultado do exame
-        public void AtualizarResultado(string diagnostico)
-        {
-            Diagnostico = diagnostico;
-            Console.WriteLine($"Resultado do exame {Id} ({Nome}) atualizado: {Diagnostico}");
-        }
+        public void AtualizarResultado(string resultado) => Resultado = resultado;
 
-        // Método para exibir informações do exame
-        public override string ToString()
-        {
-            return $"Exame {Id}: {Nome} | Data: {Data:dd/MM/yyyy} | Paciente: {Paciente.Nome} | Médico: {Medico.Nome} | Resultado: {Diagnostico}";
-        }
+        public override string ToString() => $"Exame {Id}: {Nome}, Tipo: {Tipo}, Resultado: {Resultado}";
     }
 }

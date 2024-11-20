@@ -6,7 +6,6 @@
         RaioX,
         Ultrassom,
         Tomografia,
-        Endoscopia,
-        AnaliseSangue
+        Endoscopia
     }
 }

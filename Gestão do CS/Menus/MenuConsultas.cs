@@ -3,7 +3,7 @@ using System;
 
 namespace Menus.Menu
 {
-    public static class MenuQuartos
+    public static class MenuConsultas
     {
         public static void ExibirMenu(CentroSaude centroSaude)
         {
@@ -12,9 +12,9 @@ namespace Menus.Menu
             while (continuar)
             {
                 Console.Clear();
-                Console.WriteLine("=== Gestão de Quartos ===");
-                Console.WriteLine("1. Adicionar Quarto");
-                Console.WriteLine("2. Ver Quartos");
+                Console.WriteLine("=== Gestão de Consultas ===");
+                Console.WriteLine("1. Adicionar Consulta");
+                Console.WriteLine("2. Ver Consultas");
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
@@ -23,10 +23,10 @@ namespace Menus.Menu
                 switch (opcao)
                 {
                     case "1":
-                        AdicionarQuarto(centroSaude);
+                        AdicionarConsulta(centroSaude);
                         break;
                     case "2":
-                        VerQuartos(centroSaude);
+                        VerConsultas(centroSaude);
                         break;
                     case "0":
                         continuar = false;
@@ -39,11 +39,11 @@ namespace Menus.Menu
             }
         }
 
-        private static void AdicionarQuarto(CentroSaude centroSaude)
+        private static void AdicionarConsulta(CentroSaude centroSaude)
         {
         }
 
-        private static void VerQuartos(CentroSaude centroSaude)
+        private static void VerConsultas(CentroSaude centroSaude)
         {
         }
     }

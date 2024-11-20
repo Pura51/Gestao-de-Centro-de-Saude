@@ -1,41 +1,31 @@
-﻿using CentrodeSaudeProject.Classes;
-using CentroSaudeProject.Enums;
-using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CentroSaudeProject.Classes 
+namespace CentroSaudeProject.Classes
 {
     public class CentroSaude
     {
-        private List<Paciente> Pacientes { get; set; } = new List<Paciente>();
-        private List<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
-        private List<Consulta> Consultas { get; set; } = new List<Consulta>();
-        private List<Exame> Exames { get; set; } = new List<Exame>();
-        private List<Cama> Camas { get; set; } = new List<Cama>();
-        private List<Quarto> Quartos { get; set; } = new List<Quarto>();
+        public List<Funcionario> Funcionarios { get; private set; } = new List<Funcionario>();
+        public List<Paciente> Pacientes { get; private set; } = new List<Paciente>();
+        public List<Quarto> Quartos { get; private set; } = new List<Quarto>();
 
-        public void AdicionarPaciente(Paciente paciente)
-        {
-            Pacientes.Add(paciente);
-        }
+        // Métodos para Funcionários
+        public void AdicionarFuncionario(Funcionario funcionario) => Funcionarios.Add(funcionario);
 
-        public void AdicionarFuncionario(Funcionario funcionario)
-        {
-            Funcionarios.Add(funcionario);
-        }
+        public void RemoverFuncionario(Funcionario funcionario) => Funcionarios.Remove(funcionario);
 
-        public void AdicionarCama(Cama cama)
-        {
-            Camas.Add(cama);
-        }
+        public List<Funcionario> ObterFuncionarios() => Funcionarios;
 
-        public List<Paciente> ObterPacientes()
-        {
-            return Pacientes;
-        }
+        // Métodos para Pacientes
+        public void AdicionarPaciente(Paciente paciente) => Pacientes.Add(paciente);
 
-        public List<Funcionario> ObterFuncionarios()
-        {
-            return Funcionarios;
-        }
+        public void RemoverPaciente(Paciente paciente) => Pacientes.Remove(paciente);
+
+        public List<Paciente> ObterPacientes() => Pacientes;
+
+        // Métodos para Quartos
+        public void AdicionarQuarto(Quarto quarto) => Quartos.Add(quarto);
+
+        public List<Quarto> ObterQuartos() => Quartos;
     }
 }

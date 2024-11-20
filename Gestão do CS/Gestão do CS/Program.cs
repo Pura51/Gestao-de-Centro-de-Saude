@@ -1,7 +1,5 @@
-﻿using System;
+﻿using CentroSaudeProject.Classes;
 using Menus.Menu;
-using CentroSaudeProject.Classes;
-using CentroSaudeProject.Enums;
 
 namespace GestaoCentroSaude
 {
@@ -9,9 +7,7 @@ namespace GestaoCentroSaude
     {
         static void Main(string[] args)
         {
-            // Criação da instância de CentroSaude
-            CentroSaude centroSaude = new CentroSaude();
-
+            CentroSaude centroSaude = new CentroSaude(); // Instância central do sistema
             bool executar = true;
 
             while (executar)
@@ -21,6 +17,7 @@ namespace GestaoCentroSaude
                 Console.WriteLine("1. Gestão de Funcionários");
                 Console.WriteLine("2. Gestão de Pacientes");
                 Console.WriteLine("3. Gestão de Quartos");
+                Console.WriteLine("4. Gestão de Consultas");
                 Console.WriteLine("0. Sair");
                 Console.Write("Escolha uma opção: ");
 
@@ -29,16 +26,16 @@ namespace GestaoCentroSaude
                 switch (opcao)
                 {
                     case "1":
-                        // Passa a instância do CentroSaude para o menu de funcionários
                         MenuFuncionarios.ExibirMenu(centroSaude);
                         break;
                     case "2":
-                        // Passa a instância do CentroSaude para o menu de pacientes
                         MenuPacientes.ExibirMenu(centroSaude);
                         break;
                     case "3":
-                        // Passa a instância do CentroSaude para o menu de quartos
                         MenuQuartos.ExibirMenu(centroSaude);
+                        break;
+                    case "4":
+                        MenuConsultas.ExibirMenu(centroSaude);
                         break;
                     case "0":
                         executar = false;

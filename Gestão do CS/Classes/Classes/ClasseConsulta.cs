@@ -1,23 +1,32 @@
 ﻿using System;
-using CentroSaudeProject.Classes;
+using System.Collections.Generic;
 
-namespace CentrodeSaudeProject.Classes
+namespace CentroSaudeProject.Classes
 {
     public class Consulta
     {
-        public int Id { get; set; }
-        public Paciente Paciente { get; set; }
-        public Funcionario Medico { get; set; }
+        public int Id { get; private set; }
         public DateTime Data { get; set; }
-        public double Custo { get; set; }
+        public float Custo { get; set; }
+        public string Diagnostico { get; set; }
+        public Funcionario Medico { get; set; }
+        public List<Exame> Exames { get; private set; } = new List<Exame>();
 
-        public Consulta(int id, Paciente paciente, Funcionario medico, DateTime data, double custo)
+        private static int ProximoId = 1;
+
+        public Consulta(DateTime data, float custo, Funcionario medico)
         {
-            Id = id;
-            Paciente = paciente;
-            Medico = medico;
+            Id = ProximoId++;
             Data = data;
             Custo = custo;
+            Medico = medico;
+            Diagnostico = "Pendente";
         }
+
+        public void AdicionarExame(Exame exame) => Exames.Add(exame);
+
+        public List<Exame> ObterExames() => Exames;
+
+        public override string ToString() => $"Consulta {Id}: {Data:dd/MM/yyyy}, Médico: {Medico.Nome}, Diagnóstico: {Diagnostico}";
     }
 }

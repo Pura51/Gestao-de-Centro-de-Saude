@@ -23,10 +23,10 @@ namespace Menus.Menu
                 switch (opcao)
                 {
                     case "1":
-                        AdicionarPaciente();
+                        AdicionarPaciente(centroSaude);
                         break;
                     case "2":
-                        VerPacientes();
+                        VerPacientes(centroSaude);
                         break;
                     case "0":
                         continuar = false;
@@ -39,16 +39,12 @@ namespace Menus.Menu
             }
         }
 
-        private static void AdicionarPaciente()
+        private static void AdicionarPaciente(CentroSaude centroSaude)
         {
-            Console.WriteLine("Funcionalidade de adicionar paciente ainda não implementada.");
-            Console.ReadKey();
         }
 
-        private static void VerPacientes()
+        private static void VerPacientes(CentroSaude centroSaude)
         {
-            Console.WriteLine("Funcionalidade de visualizar pacientes ainda não implementada.");
-            Console.ReadKey();
         }
     }
 }
