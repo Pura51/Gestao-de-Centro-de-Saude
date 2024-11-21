@@ -1,29 +1,72 @@
-﻿using System;
-using CentroSaudeProject.Enums;
+﻿using CentroSaudeProject.Enums;
 
 namespace CentroSaudeProject.Classes
 {
     public class Exame
     {
-        public int Id { get; private set; }
-        public string Nome { get; set; }
-        public DateTime Data { get; set; }
-        public string Resultado { get; set; }
-        public TipoExame Tipo { get; set; }
+        #region Atributos
+        private static int _proximoId = 1;
+        private int _idExame;
+        private DateTime _dataExame;
+        private string _resultado;
+        private TipoExame _tipo;
+        #endregion
 
-        private static int ProximoId = 1;
-
-        public Exame(string nome, DateTime data, TipoExame tipo)
+        #region Propriedades
+        public int IdExame
         {
-            Id = ProximoId++;
-            Nome = nome;
-            Data = data;
-            Tipo = tipo;
-            Resultado = "Pendente";
+            get { return _idExame; }
+            private set { _idExame = value; }
         }
+        public DateTime DataExame
+        {
+            get { return _dataExame; }
+            set { 
+                if (value > DateTime.Now)
+                    throw new Exception("Data do Exame errada");
+                _dataExame = value;
+            }
+        }
+        public string Resultado
+        {
+            get { return _resultado; }
+            set { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("Resultado do Exame não pode ser vazio");
+                _resultado = value;
+            }
+        }
+        public TipoExame Tipo
+        {
+            get { return _tipo; }
+            set { 
+                if (!Enum.IsDefined(typeof(TipoExame), value))
+                    throw new Exception("Tipo de Exame não Existe");
+                _tipo = value;
+            }
+        }
+        #endregion
 
-        public void AtualizarResultado(string resultado) => Resultado = resultado;
+        #region Construtores
+        public Exame(DateTime dataExame, string resultado, TipoExame tipo)
+        {
+            IdExame = _proximoId++;
+            DataExame = dataExame;
+            Resultado = resultado;
+            Tipo = tipo;
+        }
+        #endregion
 
-        public override string ToString() => $"Exame {Id}: {Nome}, Tipo: {Tipo}, Resultado: {Resultado}";
+        #region Metodos
+        public override string ToString() {
+            return $"Id: {IdExame} | Data: {DataExame} | Resultado: {Resultado} | Tipo: {Tipo}";
+        }
+        #endregion
+
+        #region Destructor
+        ~Exame()
+        {
+        }
+        #endregion
     }
 }
