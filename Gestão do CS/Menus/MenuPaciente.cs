@@ -16,6 +16,7 @@ namespace Menus.Menu
                 Console.WriteLine("1. Adicionar Paciente");
                 Console.WriteLine("2. Ver Pacientes");
                 Console.WriteLine("3. Remover Pacientes");
+                Console.WriteLine("4. Alocação Automática de Paciente");
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
@@ -31,6 +32,19 @@ namespace Menus.Menu
                         break;
                     case "3":
                         RemoverPaciente(centroSaude);
+                        break;
+                    case "4":
+                        Console.Write("Digite o ID do Paciente para alocar automaticamente: ");
+                        if (int.TryParse(Console.ReadLine(), out int idPaciente))
+                        {
+                            centroSaude.AlocarPacienteAutomatico(idPaciente);
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID inválido.");
+                        }
+                        Console.WriteLine("Pressione qualquer tecla para continuar...");
+                        Console.ReadKey();
                         break;
                     case "0":
                         continuar = false;
@@ -146,6 +160,66 @@ namespace Menus.Menu
 
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
             Console.ReadKey();
+        }
+
+        private static void AlocarPacienteAutomatico(CentroSaude centroSaude)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=== Alocação Automática de Paciente ===");
+
+                // Escolha do paciente
+                Console.Write("Digite o ID do Paciente: ");
+                if (!int.TryParse(Console.ReadLine(), out int idPaciente))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var paciente = centroSaude.Pacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+                if (paciente == null)
+                {
+                    Console.WriteLine("Paciente não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                if (paciente.CamaOcupada != null)
+                {
+                    Console.WriteLine($"O paciente já está alocado na cama ID: {paciente.CamaOcupada.IdCama}.");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Procurar automaticamente um quarto e uma cama disponíveis
+                foreach (var quarto in centroSaude.Quartos)
+                {
+                    var camaDisponivel = quarto.Camas.FirstOrDefault(c => c.Disponivel);
+                    if (camaDisponivel != null)
+                    {
+                        // Atribuir a cama ao paciente
+                        paciente.AtribuirCama(camaDisponivel);
+                        camaDisponivel.Ocupar();
+
+                        Console.WriteLine($"Paciente {paciente.Nome} foi alocado automaticamente à cama {camaDisponivel.NumeroCama} no quarto {quarto.Numero} com sucesso!");
+                        Console.ReadKey();
+                        return;
+                    }
+                }
+
+                Console.WriteLine("Não há camas disponíveis em nenhum quarto.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao alocar paciente: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            }
         }
 
     }

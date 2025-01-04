@@ -15,6 +15,7 @@ namespace Menus.Menu
                 Console.WriteLine("=== Gestão de Quartos ===");
                 Console.WriteLine("1. Adicionar Quarto");
                 Console.WriteLine("2. Ver Quartos");
+                Console.WriteLine("3. Alocar Paciente Automaticamente a um Quarto");
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
@@ -27,6 +28,9 @@ namespace Menus.Menu
                         break;
                     case "2":
                         VerQuartos(centroSaude);
+                        break;
+                    case "3":
+                        MenuPacientes.AlocarPacienteAutomatico(centroSaude); // Reutiliza o método do menu de pacientes
                         break;
                     case "0":
                         continuar = false;
@@ -94,7 +98,7 @@ namespace Menus.Menu
                 Console.WriteLine("Pressione qualquer tecla para continuar...");
                 Console.ReadKey();
             }
-        }       
+        }
 
     }
 }

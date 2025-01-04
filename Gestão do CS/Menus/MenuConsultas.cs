@@ -131,7 +131,7 @@ namespace Menus.Menu
         }
 
         private static void AdicionarExames(CentroSaude centroSaude)
-    {
+        {
             try
             {
                 Console.Clear();

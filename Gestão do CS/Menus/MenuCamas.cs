@@ -1,10 +1,13 @@
-using CentroSaudeProject.Classes;
-using CentroSaudeProject.Enums;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CentroSaudeProject.Classes;
 
 namespace Menus.Menu
 {
-    public static class MenuConsultas
+    public static class MenuCamas
     {
         public static void ExibirMenu(CentroSaude centroSaude)
         {
@@ -13,12 +16,10 @@ namespace Menus.Menu
             while (continuar)
             {
                 Console.Clear();
-                Console.WriteLine("=== Gestão de Consultas ===");
-                Console.WriteLine("1. Adicionar Consulta");
-                Console.WriteLine("2. Ver Consultas");
-                Console.WriteLine("3. Adicionar Exames");
-                Console.WriteLine("4. Ver Exames");
-                Console.WriteLine("5. Remover Exames");
+                Console.WriteLine("=== Gestão de Camas ===");
+                Console.WriteLine("1. Adicionar Cama a um Quarto");
+                Console.WriteLine("2. Ver Camas de um Quarto");
+                Console.WriteLine("3. Remover Cama de um Quarto");
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
@@ -27,19 +28,13 @@ namespace Menus.Menu
                 switch (opcao)
                 {
                     case "1":
-                        AdicionarConsulta(centroSaude);
+                        AdicionarCama(centroSaude);
                         break;
                     case "2":
-                        VerConsultas(centroSaude);
+                        VerCamas(centroSaude);
                         break;
                     case "3":
-                        AdicionarExames(centroSaude);
-                        break;
-                    case "4":
-                        VerExames(centroSaude);
-                        break;
-                    case "5":
-                        RemoverExames(centroSaude);
+                        RemoverCama(centroSaude);
                         break;
                     case "0":
                         continuar = false;
@@ -52,150 +47,45 @@ namespace Menus.Menu
             }
         }
 
-        private static void AdicionarConsulta(CentroSaude centroSaude)
+        private static void AdicionarCama(CentroSaude centroSaude)
         {
             try
             {
                 Console.Clear();
-                Console.WriteLine("=== Adicionar Consulta ===");
+                Console.WriteLine("=== Adicionar Cama ===");
 
-                Console.Write("Data da Consulta (formato: dd/MM/yyyy): ");
-                if (!DateTime.TryParse(Console.ReadLine(), out DateTime dataConsulta))
-                {
-                    Console.WriteLine("Data inválida. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                Console.Write("Custo da Consulta: ");
-                if (!float.TryParse(Console.ReadLine(), out float custo) || custo < 0)
-                {
-                    Console.WriteLine("Custo inválido. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                Console.Write("Diagnóstico: ");
-                string diagnostico = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(diagnostico))
-                {
-                    Console.WriteLine("Diagnóstico inválido. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                var consulta = new Consulta(dataConsulta, custo, diagnostico);
-                centroSaude.AdicionarConsulta(consulta);
-
-                Console.WriteLine("Consulta adicionada com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao adicionar consulta: {ex.Message}");
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para continuar...");
-                Console.ReadKey();
-            }
-        }
-
-        private static void VerConsultas(CentroSaude centroSaude)
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("=== Lista de Consultas ===");
-
-                if (centroSaude.Consultas.Count == 0)
-                {
-                    Console.WriteLine("Nenhuma consulta cadastrada.");
-                }
-                else
-                {
-                    foreach (var consulta in centroSaude.Consultas)
-                    {
-                        Console.WriteLine(consulta);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao exibir consultas: {ex.Message}");
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para continuar...");
-                Console.ReadKey();
-            }
-        }
-
-        private static void AdicionarExames(CentroSaude centroSaude)
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("=== Adicionar Exames ===");
-
-                // Solicita o ID da consulta
-                Console.Write("ID da Consulta: ");
-                if (!int.TryParse(Console.ReadLine(), out int idConsulta))
+                Console.Write("Digite o ID do Quarto: ");
+                if (!int.TryParse(Console.ReadLine(), out int idQuarto))
                 {
                     Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
                     Console.ReadKey();
                     return;
                 }
 
-                // Encontra a consulta correspondente
-                var consulta = centroSaude.Consultas.FirstOrDefault(c => c.IdConsulta == idConsulta);
-                if (consulta == null)
+                var quarto = centroSaude.Quartos.FirstOrDefault(q => q.IdQuarto == idQuarto);
+                if (quarto == null)
                 {
-                    Console.WriteLine("Consulta não encontrada. Pressione qualquer tecla para continuar...");
+                    Console.WriteLine("Quarto não encontrado. Pressione qualquer tecla para continuar...");
                     Console.ReadKey();
                     return;
                 }
 
-                // Solicita os dados necessários para criar o exame
-                Console.Write("Data do Exame (formato: dd/MM/yyyy): ");
-                if (!DateTime.TryParse(Console.ReadLine(), out DateTime dataExame))
+                Console.Write("Digite o número da cama: ");
+                if (!int.TryParse(Console.ReadLine(), out int numeroCama))
                 {
-                    Console.WriteLine("Data inválida. Pressione qualquer tecla para continuar...");
+                    Console.WriteLine("Número da cama inválido. Pressione qualquer tecla para continuar...");
                     Console.ReadKey();
                     return;
                 }
 
-                Console.Write("Resultado do Exame: ");
-                string resultado = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(resultado))
-                {
-                    Console.WriteLine("Resultado inválido. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
+                var cama = new Cama(numeroCama, true);
+                quarto.AdicionarCama(cama);
 
-                Console.WriteLine("Tipo de Exame (número correspondente):");
-                foreach (var tipo in Enum.GetValues(typeof(TipoExame)))
-                {
-                    Console.WriteLine($"{(int)tipo} - {tipo}");
-                }
-                if (!Enum.TryParse(Console.ReadLine(), out TipoExame tipoExame))
-                {
-                    Console.WriteLine("Tipo de Exame inválido. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                // Cria o objeto Exame com os dados fornecidos
-                var exame = new Exame(dataExame, resultado, tipoExame);
-
-                // Adiciona o exame à consulta
-                consulta.AdicionarExame(exame);
-
-                Console.WriteLine("Exame adicionado com sucesso!");
+                Console.WriteLine("Cama adicionada com sucesso!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar exame: {ex.Message}");
+                Console.WriteLine($"Erro ao adicionar cama: {ex.Message}");
             }
             finally
             {
@@ -204,97 +94,38 @@ namespace Menus.Menu
             }
         }
 
-        private static void VerExames(CentroSaude centroSaude)
+        private static void VerCamas(CentroSaude centroSaude)
         {
             try
             {
                 Console.Clear();
-                Console.WriteLine("=== Lista de Exames ===");
+                Console.WriteLine("=== Ver Camas de um Quarto ===");
 
-                if (centroSaude.Consultas.Count == 0)
-                {
-                    Console.WriteLine("Nenhuma consulta cadastrada.");
-                }
-                else
-                {
-                    foreach (var consulta in centroSaude.Consultas)
-                    {
-                        foreach (var exame in consulta.Exames)
-                        {
-                            // Aqui, usamos a propriedade 'Tipo' para acessar o tipo do exame
-                            Console.WriteLine($"Consulta {consulta.IdConsulta} | {exame}");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao exibir exames: {ex.Message}");
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para continuar...");
-                Console.ReadKey();
-            }
-        }
-        private static void RemoverExames(CentroSaude centroSaude)
-        {
-            try
-            {
-                Console.Clear();
-                Console.WriteLine("=== Remover Exames ===");
-
-                // Solicita o ID da consulta
-                Console.Write("ID da Consulta: ");
-                if (!int.TryParse(Console.ReadLine(), out int idConsulta))
+                Console.Write("Digite o ID do Quarto: ");
+                if (!int.TryParse(Console.ReadLine(), out int idQuarto))
                 {
                     Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
                     Console.ReadKey();
                     return;
                 }
 
-                // Encontra a consulta correspondente
-                var consulta = centroSaude.Consultas.FirstOrDefault(c => c.IdConsulta == idConsulta);
-                if (consulta == null)
+                var quarto = centroSaude.Quartos.FirstOrDefault(q => q.IdQuarto == idQuarto);
+                if (quarto == null)
                 {
-                    Console.WriteLine("Consulta não encontrada. Pressione qualquer tecla para continuar...");
+                    Console.WriteLine("Quarto não encontrado. Pressione qualquer tecla para continuar...");
                     Console.ReadKey();
                     return;
                 }
 
-                // Exibe os exames da consulta
-                Console.WriteLine("Exames da consulta:");
-                foreach (var exame in consulta.Exames)
+                Console.WriteLine($"=== Camas do Quarto {quarto.Numero} ===");
+                foreach (var cama in quarto.Camas)
                 {
-                    Console.WriteLine($"Id: {exame.IdExame} | Data: {exame.DataExame} | Resultado: {exame.Resultado} | Tipo: {exame.Tipo}");
+                    Console.WriteLine(cama);
                 }
-
-                // Solicita o ID do exame a ser removido
-                Console.Write("Digite o ID do Exame a Remover: ");
-                if (!int.TryParse(Console.ReadLine(), out int idExame))
-                {
-                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                // Encontra o exame pelo ID
-                var exameParaRemover = consulta.Exames.FirstOrDefault(e => e.IdExame == idExame);
-                if (exameParaRemover == null)
-                {
-                    Console.WriteLine("Exame não encontrado. Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    return;
-                }
-
-                // Remove o exame da consulta
-                consulta.RemoverExame(exameParaRemover);
-
-                Console.WriteLine("Exame removido com sucesso!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao remover exame: {ex.Message}");
+                Console.WriteLine($"Erro ao visualizar camas: {ex.Message}");
             }
             finally
             {
@@ -303,5 +134,63 @@ namespace Menus.Menu
             }
         }
 
+        private static void RemoverCama(CentroSaude centroSaude)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=== Remover Cama ===");
+
+                Console.Write("Digite o ID do Quarto: ");
+                if (!int.TryParse(Console.ReadLine(), out int idQuarto))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var quarto = centroSaude.Quartos.FirstOrDefault(q => q.IdQuarto == idQuarto);
+                if (quarto == null)
+                {
+                    Console.WriteLine("Quarto não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                Console.WriteLine($"=== Camas do Quarto {quarto.Numero} ===");
+                foreach (var cama in quarto.Camas)
+                {
+                    Console.WriteLine($"ID: {cama.IdCama} | Número: {cama.NumeroCama} | Disponível: {cama.Disponivel}");
+                }
+
+                Console.Write("Digite o ID da Cama a ser removida: ");
+                if (!int.TryParse(Console.ReadLine(), out int idCama))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var camaRemover = quarto.Camas.FirstOrDefault(c => c.IdCama == idCama);
+                if (camaRemover == null)
+                {
+                    Console.WriteLine("Cama não encontrada. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                quarto.RemoverCama(camaRemover);
+                Console.WriteLine("Cama removida com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao remover cama: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            }
+        }
     }
 }
