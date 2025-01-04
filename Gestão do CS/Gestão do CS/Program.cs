@@ -14,32 +14,28 @@ namespace GestaoCentroSaude
             {
                 Console.Clear();
                 Console.WriteLine("=== Sistema de Gestão do Centro de Saúde ===");
-                Console.WriteLine("1. Gestão de Funcionários");
-                Console.WriteLine("2. Gestão de Pacientes");
-                Console.WriteLine("3. Gestão de Quartos");
-                Console.WriteLine("4. Gestão de Consultas");
+                Console.WriteLine("1. Gestão de Pacientes");
+                Console.WriteLine("2. Gestão de Quartos");
+                Console.WriteLine("3. Gestão de Consultas");
                 Console.WriteLine("0. Sair");
                 Console.Write("Escolha uma opção: ");
 
-                string opcao = Console.ReadLine();
+                string? opcao = Console.ReadLine();
 
                 switch (opcao)
                 {
                     case "1":
-                        MenuFuncionarios.ExibirMenu(centroSaude);
-                        break;
-                    case "2":
                         MenuPacientes.ExibirMenu(centroSaude);
                         break;
-                    case "3":
+                    case "2":
                         MenuQuartos.ExibirMenu(centroSaude);
                         break;
-                    case "4":
+                    case "3":
                         MenuConsultas.ExibirMenu(centroSaude);
                         break;
                     case "0":
                         executar = false;
-                        Console.WriteLine("Encerrando o sistema...");
+                        Console.WriteLine("A Encerrar o sistema...");
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Pressione qualquer tecla para continuar...");

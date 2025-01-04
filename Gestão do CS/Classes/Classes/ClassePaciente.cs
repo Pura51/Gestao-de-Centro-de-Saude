@@ -1,16 +1,19 @@
 ﻿
 
+using CentroSaudeProject.Enums;
+
 namespace CentroSaudeProject.Classes
 {
-    public class Paciente
+    public class Paciente : Pessoa
     {
         #region Atributos
         private static int _proximoId = 1; //Gera Id automaticamente
         private int _idPaciente;
-        private string _nome;
-        private int _idade;
-        private char _sexo;
         private List<Consulta> _consultas; // Consultas associadas ao paciente
+        private List<Quarto> _quartos;
+        private List<Cama> _camas;
+        private TipoEstadoPaciente _tipoEstadoPaciente;
+
         #endregion
 
         #region Propriedades

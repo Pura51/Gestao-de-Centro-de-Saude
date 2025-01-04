@@ -10,6 +10,8 @@ namespace CentroSaudeProject.Classes
         private float _custo;
         private string _diagnostico;
         private List<Exame> _exames; // Exames associados à consulta
+        private List<Medico> _medico;
+        
         #endregion
 
         #region Propriedades

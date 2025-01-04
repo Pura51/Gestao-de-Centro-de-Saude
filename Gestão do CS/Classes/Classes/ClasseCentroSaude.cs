@@ -8,7 +8,6 @@ namespace CentroSaudeProject.Classes
         #region Atributos
         private List<Quarto> _quartos;
         private List<Paciente> _pacientes;
-        private List<Funcionario> _funcionarios;
         #endregion
 
         #region Properties
@@ -20,10 +19,7 @@ namespace CentroSaudeProject.Classes
         {
             get { return _pacientes.AsReadOnly(); }
         }
-        public IReadOnlyList<Funcionario> Funcionarios
-        {
-            get { return _funcionarios.AsReadOnly(); }
-        }
+        
         #endregion
 
         #region Construtores
@@ -31,7 +27,6 @@ namespace CentroSaudeProject.Classes
         {
             _quartos = new List<Quarto>();
             _pacientes = new List<Paciente>();
-            _funcionarios = new List<Funcionario>();
         }
         #endregion
 
@@ -56,31 +51,6 @@ namespace CentroSaudeProject.Classes
             foreach (var paciente in _pacientes)
             {
                 Console.WriteLine(paciente);
-            }
-        }
-        #endregion
-
-        #region Métodos - Funcionários
-        public void AdicionarFuncionario(Funcionario funcionario)
-        {
-            if (funcionario == null)
-                throw new ArgumentNullException(nameof(funcionario), "O funcionário não pode ser nulo.");
-            _funcionarios.Add(funcionario);
-        }
-
-        public void RemoverFuncionario(Funcionario funcionario)
-        {
-            if (!_funcionarios.Contains(funcionario))
-                throw new Exception("O funcionário não existe no centro de saúde.");
-            _funcionarios.Remove(funcionario);
-        }
-
-        public void ListarFuncionarios()
-        {
-            Console.WriteLine("=== Funcionários ===");
-            foreach (var funcionario in _funcionarios)
-            {
-                Console.WriteLine(funcionario);
             }
         }
         #endregion

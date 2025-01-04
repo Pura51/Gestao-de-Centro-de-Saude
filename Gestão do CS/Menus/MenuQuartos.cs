@@ -18,7 +18,7 @@ namespace Menus.Menu
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
-                string opcao = Console.ReadLine();
+                string? opcao = Console.ReadLine();
 
                 switch (opcao)
                 {

@@ -7,6 +7,8 @@ namespace CentroSaudeProject.Classes
         private static int _proximoId = 1; //Gera Id automaticamente
         private int _idQuarto;
         private int _numero;
+        private bool _lotacao;
+        private List<Enfermeiro> _enfermeiro;
         private List<Cama> _cama; // Associa camas ao quarto
         private const int MaxCamas = 2; // Numero maximo de camas
         #endregion
