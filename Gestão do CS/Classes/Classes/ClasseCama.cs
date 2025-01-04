@@ -47,9 +47,12 @@
         /// </summary>
         public void Ocupar()
         {
-            if (!_disponivel)
-                throw new InvalidOperationException("A cama já está ocupada.");
-            _disponivel = false;
+            if (!Disponivel)
+            {
+                Console.WriteLine("Erro: A cama já está ocupada.");
+                return; // Evita lançar a exceção
+            }
+            Disponivel = false;
         }
 
         /// <summary>

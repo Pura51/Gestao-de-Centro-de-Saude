@@ -1,5 +1,4 @@
-﻿
-namespace CentroSaudeProject.Classes
+﻿namespace CentroSaudeProject.Classes
 {
     public class Consulta
     {
@@ -11,7 +10,7 @@ namespace CentroSaudeProject.Classes
         private string _diagnostico;
         private List<Exame> _exames; // Exames associados à consulta
         private List<Medico> _medico;
-        
+
         #endregion
 
         #region Propriedades
@@ -64,7 +63,7 @@ namespace CentroSaudeProject.Classes
             DataConsulta = dataConsulta;
             Custo = custo;
             Diagnostico = diagnostico;
-            _exames = new List<Exame>();    
+            _exames = new List<Exame>();
         }
         #endregion
 

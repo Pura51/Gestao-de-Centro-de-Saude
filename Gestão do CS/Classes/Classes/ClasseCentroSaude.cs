@@ -30,7 +30,7 @@ namespace CentroSaudeProject.Classes
         {
             get { return _exames.AsReadOnly(); }
         }
-        
+
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace CentroSaudeProject.Classes
         {
             if (quarto == null)
                 throw new ArgumentNullException(nameof(quarto), "O quarto não pode ser nulo.");
-             _quartos.Add(quarto);
+            _quartos.Add(quarto);
             Console.WriteLine($"Quarto {quarto.Numero} adicionado. Total de quartos: {_quartos.Count}");
         }
 
@@ -91,16 +91,47 @@ namespace CentroSaudeProject.Classes
             Console.WriteLine("=== Quartos ===");
             foreach (var quarto in _quartos)
             {
-                Console.WriteLine(quarto); // `ToString` de Quarto será usado aqui.
+                Console.WriteLine(quarto); // ToString de Quarto será usado aqui.
             }
         }
 
         #endregion
 
+        public void AlocarPacienteAutomatico(int idPaciente)
+        {
+            var paciente = _pacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            if (paciente == null)
+            {
+                Console.WriteLine("Paciente não encontrado.");
+                return;
+            }
+
+            if (paciente.CamaOcupada != null)
+            {
+                Console.WriteLine($"O paciente já está alocado na cama ID: {paciente.CamaOcupada.IdCama}.");
+                return;
+            }
+
+            foreach (var quarto in _quartos)
+            {
+                var camaDisponivel = quarto.Camas.FirstOrDefault(c => c.Disponivel);
+                if (camaDisponivel != null)
+                {
+                    paciente.AtribuirCama(camaDisponivel);
+                    camaDisponivel.Ocupar();
+
+                    Console.WriteLine($"Paciente {paciente.Nome} foi alocado automaticamente à cama {camaDisponivel.NumeroCama} no quarto {quarto.Numero} com sucesso!");
+                    return;
+                }
+            }
+
+            Console.WriteLine("Não há camas disponíveis em nenhum quarto.");
+        }
 
         #region Métodos - Consultas
 
-        public void ListarConsultas(){
+        public void ListarConsultas()
+        {
             Console.WriteLine("=== Consultas ===");
             foreach (var consulta in _consultas)
             {
@@ -119,7 +150,8 @@ namespace CentroSaudeProject.Classes
 
         #region Métodos - Exames
 
-        public void ListarExames(){
+        public void ListarExames()
+        {
             Console.WriteLine("=== Exames ===");
             foreach (var exame in _exames)
             {

@@ -1,5 +1,4 @@
-﻿
-namespace CentroSaudeProject.Classes
+﻿namespace CentroSaudeProject.Classes
 {
     public class Quarto
     {
@@ -23,13 +22,14 @@ namespace CentroSaudeProject.Classes
         public int Numero
         {
             get { return _numero; }
-            set {
+            set
+            {
                 if (value <= 0)
                     throw new Exception("Número do quarto inválido");
                 _numero = value;
             }
         }
-        public List<Cama> Cama
+        public List<Cama> Camas
         {
             get { return _cama; }
         }
@@ -48,11 +48,23 @@ namespace CentroSaudeProject.Classes
         /// <summary>
         /// Adicionar cama ao quarto
         /// </summary>
-        public void AdicionarCma(Cama cama)
+        public void AdicionarCama(Cama cama)
         {
             if (_cama.Count >= MaxCamas)
                 throw new Exception("Número máximo de camas atingido.");
             _cama.Add(cama);
+        }
+
+        /// </summary>
+        /// Atribuir cama 
+        /// </summary>
+        public Cama AtribuirCama()
+        {
+            var camaDisponivel = Camas.FirstOrDefault(c => c.Disponivel);
+            if (camaDisponivel == null)
+                throw new Exception("Não há camas disponíveis neste quarto.");
+            camaDisponivel.Ocupar();
+            return camaDisponivel;
         }
 
         /// <summary>
@@ -78,4 +90,3 @@ namespace CentroSaudeProject.Classes
         #endregion
     }
 }
-
