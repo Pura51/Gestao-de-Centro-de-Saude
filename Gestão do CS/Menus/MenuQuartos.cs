@@ -41,10 +41,60 @@ namespace Menus.Menu
 
         private static void AdicionarQuarto(CentroSaude centroSaude)
         {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=== Adicionar Quarto ===");
+                Console.Write("Digite o número do quarto: ");
+
+                if (!int.TryParse(Console.ReadLine(), out int numero) || numero <= 0)
+                {
+                    Console.WriteLine("Número inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Criar novo quarto e adicionar ao centro de saúde
+                var quarto = new Quarto(numero);
+                centroSaude.AdicionarQuarto(quarto);
+
+                Console.WriteLine("Quarto adicionado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao adicionar quarto: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            }
         }
 
         private static void VerQuartos(CentroSaude centroSaude)
         {
-        }
+            try
+            {
+                Console.Clear();
+                if (centroSaude.Quartos.Count == 0)
+                {
+                    Console.WriteLine("Nenhum quarto cadastrado.");
+                }
+                else
+                {
+                    centroSaude.ListarQuartos(); // Usando o método já existente na classe
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao exibir quartos: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            }
+        }       
+
     }
 }

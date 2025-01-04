@@ -8,6 +8,9 @@ namespace CentroSaudeProject.Classes
         #region Atributos
         private List<Quarto> _quartos;
         private List<Paciente> _pacientes;
+        private List<Consulta> _consultas;
+        public List<Exame> _exames;
+
         #endregion
 
         #region Properties
@@ -19,7 +22,16 @@ namespace CentroSaudeProject.Classes
         {
             get { return _pacientes.AsReadOnly(); }
         }
+        public IReadOnlyList<Consulta> Consultas
+        {
+            get { return _consultas.AsReadOnly(); }
+        }
+        public IReadOnlyList<Exame> Exames
+        {
+            get { return _exames.AsReadOnly(); }
+        }
         
+
         #endregion
 
         #region Construtores
@@ -27,6 +39,8 @@ namespace CentroSaudeProject.Classes
         {
             _quartos = new List<Quarto>();
             _pacientes = new List<Paciente>();
+            _consultas = new List<Consulta>();
+            _exames = new List<Exame>();
         }
         #endregion
 
@@ -60,8 +74,10 @@ namespace CentroSaudeProject.Classes
         {
             if (quarto == null)
                 throw new ArgumentNullException(nameof(quarto), "O quarto não pode ser nulo.");
-            _quartos.Add(quarto);
+             _quartos.Add(quarto);
+            Console.WriteLine($"Quarto {quarto.Numero} adicionado. Total de quartos: {_quartos.Count}");
         }
+
 
         public void RemoverQuarto(Quarto quarto)
         {
@@ -75,11 +91,43 @@ namespace CentroSaudeProject.Classes
             Console.WriteLine("=== Quartos ===");
             foreach (var quarto in _quartos)
             {
-                Console.WriteLine(quarto);
+                Console.WriteLine(quarto); // `ToString` de Quarto será usado aqui.
             }
         }
+
         #endregion
 
+
+        #region Métodos - Consultas
+
+        public void ListarConsultas(){
+            Console.WriteLine("=== Consultas ===");
+            foreach (var consulta in _consultas)
+            {
+                Console.WriteLine(consulta);
+            }
+        }
+
+        public void AdicionarConsulta(Consulta consulta)
+        {
+            if (consulta == null)
+                throw new ArgumentNullException(nameof(consulta), "A consulta não pode ser nula.");
+            _consultas.Add(consulta);
+        }
+
+        #endregion
+
+        #region Métodos - Exames
+
+        public void ListarExames(){
+            Console.WriteLine("=== Exames ===");
+            foreach (var exame in _exames)
+            {
+                Console.WriteLine(exame);
+            }
+        }
+
+        #endregion
 
     }
 }
