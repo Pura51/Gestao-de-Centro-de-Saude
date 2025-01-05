@@ -7,6 +7,7 @@
         private int _idCama;
         private int _numeroCama;
         private bool _disponivel;
+        private Enfermeiro _enfermeiroResponsavel;
         #endregion
 
         #region Propriedades
@@ -29,6 +30,11 @@
         {
             get { return _disponivel; }
             set { _disponivel = value; }
+        }
+        public Enfermeiro EnfermeiroResponsavel 
+        {
+            get { return _enfermeiroResponsavel; }
+            set { _enfermeiroResponsavel = value; }
         }
         #endregion
 

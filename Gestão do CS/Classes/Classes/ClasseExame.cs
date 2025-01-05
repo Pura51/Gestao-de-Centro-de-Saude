@@ -49,7 +49,7 @@ namespace CentroSaudeProject.Classes
         public Medico MedicoResponsavel
         {
             get { return _medicoResponsavel; }
-            set { _medicoResponsavel = value; }
+            private set { _medicoResponsavel = value; }
         }
         #endregion
 
@@ -60,12 +60,24 @@ namespace CentroSaudeProject.Classes
             DataExame = dataExame;
             Resultado = resultado;
             Tipo = tipo;
+            MedicoResponsavel = null;  // Inicializa sem médico
         }
         #endregion
 
-        #region Metodos
-        public override string ToString() {
-            return $"Id: {IdExame} | Data: {DataExame} | Resultado: {Resultado} | Tipo: {Tipo}";
+        #region Métodos
+        // Método para associar o médico ao exame
+        public void AssociarMedico(Medico medico)
+        {
+            if (medico == null)
+            {
+                throw new ArgumentNullException(nameof(medico), "O médico não pode ser nulo.");
+            }
+            MedicoResponsavel = medico;
+        }
+
+        public override string ToString() 
+        {
+            return $"Id: {IdExame} | Data: {DataExame} | Resultado: {Resultado} | Tipo: {Tipo} | Médico: {(MedicoResponsavel != null ? MedicoResponsavel._nome : "Não atribuído")}";
         }
         #endregion
 

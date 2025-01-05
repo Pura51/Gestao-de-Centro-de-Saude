@@ -12,6 +12,7 @@ namespace CentroSaudeProject.Classes
         public List<Exame> _exames;
         private List<Medico> _medico;
         private List<Enfermeiro> _enfermeiro;
+        private List<Cama> _camas;
 
         #endregion
 
@@ -39,6 +40,10 @@ namespace CentroSaudeProject.Classes
         public IReadOnlyList<Enfermeiro> Enfermeiros
         {
             get { return _enfermeiro.AsReadOnly(); }
+        }
+        public IReadOnlyList<Cama> Camas
+        {
+            get { return _camas.AsReadOnly(); }
         }
         #endregion
 

@@ -20,6 +20,7 @@ namespace Menus.Menu
                 Console.WriteLine("3. Adicionar Exames");
                 Console.WriteLine("4. Ver Exames");
                 Console.WriteLine("5. Remover Exames");
+                Console.WriteLine("6. Associar Médico ao Exame");
                 Console.WriteLine("0. Voltar ao Menu Principal");
                 Console.Write("Escolha uma opção: ");
 
@@ -41,6 +42,9 @@ namespace Menus.Menu
                         break;
                     case "5":
                         RemoverExames(centroSaude);
+                        break;
+                    case "6":
+                        AssociarMedicoAoExame(centroSaude);
                         break;
                     case "0":
                         continuar = false;
@@ -341,6 +345,87 @@ namespace Menus.Menu
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao remover exame: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para continuar...");
+                Console.ReadKey();
+            }
+        }
+
+        // Método de associar médico ao exame
+        private static void AssociarMedicoAoExame(CentroSaude centroSaude)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("=== Associar Médico ao Exame ===");
+
+                // Solicita o ID da consulta
+                Console.Write("ID da Consulta: ");
+                if (!int.TryParse(Console.ReadLine(), out int idConsulta))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Encontra a consulta correspondente
+                var consulta = centroSaude.Consultas.FirstOrDefault(c => c.IdConsulta == idConsulta);
+                if (consulta == null)
+                {
+                    Console.WriteLine("Consulta não encontrada. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Solicita o ID do exame
+                Console.Write("ID do Exame: ");
+                if (!int.TryParse(Console.ReadLine(), out int idExame))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Encontra o exame correspondente
+                var exame = consulta.Exames.FirstOrDefault(e => e.IdExame == idExame);
+                if (exame == null)
+                {
+                    Console.WriteLine("Exame não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Solicita o médico para associar ao exame
+                Console.WriteLine("Médicos disponíveis:");
+                foreach (var medico in centroSaude.Medicos)
+                {
+                    Console.WriteLine($"{medico.IdMedico} - {medico._nome}");
+                }
+                Console.Write("Digite o ID do médico a ser associado ao exame: ");
+                if (!int.TryParse(Console.ReadLine(), out int idMedico))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var medicoResponsavel = centroSaude.Medicos.FirstOrDefault(m => m.IdMedico == idMedico);
+                if (medicoResponsavel == null)
+                {
+                    Console.WriteLine("Médico não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Associa o médico ao exame
+                exame.AssociarMedico(medicoResponsavel);
+                Console.WriteLine($"Médico {medicoResponsavel._nome} associado ao exame com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao associar médico ao exame: {ex.Message}");
             }
             finally
             {
