@@ -10,6 +10,8 @@ namespace CentroSaudeProject.Classes
         private List<Paciente> _pacientes;
         private List<Consulta> _consultas;
         public List<Exame> _exames;
+        private List<Medico> _medico;
+        private List<Enfermeiro> _enfermeiro;
 
         #endregion
 
@@ -30,8 +32,14 @@ namespace CentroSaudeProject.Classes
         {
             get { return _exames.AsReadOnly(); }
         }
-
-
+        public IReadOnlyList<Medico> Medicos
+        {
+            get { return _medico.AsReadOnly(); }
+        }
+        public IReadOnlyList<Enfermeiro> Enfermeiros
+        {
+            get { return _enfermeiro.AsReadOnly(); }
+        }
         #endregion
 
         #region Construtores
@@ -41,6 +49,8 @@ namespace CentroSaudeProject.Classes
             _pacientes = new List<Paciente>();
             _consultas = new List<Consulta>();
             _exames = new List<Exame>();
+            _medico = new List<Medico>();
+            _enfermeiro = new List<Enfermeiro>();
         }
         #endregion
 
@@ -157,6 +167,24 @@ namespace CentroSaudeProject.Classes
             {
                 Console.WriteLine(exame);
             }
+        }
+
+        #endregion
+
+        #region Métodos - Médico
+
+        public void AdicionarMedico(Medico medico)
+        {
+            _medico.Add(medico);
+        }
+
+        #endregion
+
+        #region Métodos - Enfermeiros
+
+        public void AdicionarEnfermeiro(Enfermeiro enfermeiro)
+        {
+            _enfermeiro.Add(enfermeiro);
         }
 
         #endregion

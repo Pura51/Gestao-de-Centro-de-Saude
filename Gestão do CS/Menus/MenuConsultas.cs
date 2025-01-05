@@ -1,6 +1,7 @@
 ﻿using CentroSaudeProject.Classes;
 using CentroSaudeProject.Enums;
 using System;
+using System.Linq;
 
 namespace Menus.Menu
 {
@@ -59,6 +60,7 @@ namespace Menus.Menu
                 Console.Clear();
                 Console.WriteLine("=== Adicionar Consulta ===");
 
+                // Solicita a data da consulta
                 Console.Write("Data da Consulta (formato: dd/MM/yyyy): ");
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime dataConsulta))
                 {
@@ -67,6 +69,7 @@ namespace Menus.Menu
                     return;
                 }
 
+                // Solicita o custo da consulta
                 Console.Write("Custo da Consulta: ");
                 if (!float.TryParse(Console.ReadLine(), out float custo) || custo < 0)
                 {
@@ -75,6 +78,7 @@ namespace Menus.Menu
                     return;
                 }
 
+                // Solicita o diagnóstico
                 Console.Write("Diagnóstico: ");
                 string diagnostico = Console.ReadLine() ?? string.Empty;
                 if (string.IsNullOrWhiteSpace(diagnostico))
@@ -84,7 +88,32 @@ namespace Menus.Menu
                     return;
                 }
 
-                var consulta = new Consulta(dataConsulta, custo, diagnostico);
+                // Solicita o médico responsável
+                Console.WriteLine("Médicos disponíveis:");
+                foreach (var medico in centroSaude.Medicos)
+                {
+                    Console.WriteLine($"{medico.IdMedico} - {medico._nome}");
+                }
+                Console.Write("Digite o ID do médico responsável pela consulta: ");
+                if (!int.TryParse(Console.ReadLine(), out int idMedico))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var medicoResponsavel = centroSaude.Medicos.FirstOrDefault(m => m.IdMedico == idMedico);
+                if (medicoResponsavel == null)
+                {
+                    Console.WriteLine("Médico não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Cria a consulta com o médico responsável
+                var consulta = new Consulta(dataConsulta, custo, diagnostico, medicoResponsavel);
+
+                // Adiciona a consulta ao centro de saúde
                 centroSaude.AdicionarConsulta(consulta);
 
                 Console.WriteLine("Consulta adicionada com sucesso!");
@@ -99,6 +128,7 @@ namespace Menus.Menu
                 Console.ReadKey();
             }
         }
+
 
         private static void VerConsultas(CentroSaude centroSaude)
         {
@@ -115,7 +145,21 @@ namespace Menus.Menu
                 {
                     foreach (var consulta in centroSaude.Consultas)
                     {
-                        Console.WriteLine(consulta);
+                        // Exibe informações completas da consulta, incluindo os dados do médico
+                        Console.WriteLine($"Consulta ID: {consulta.IdConsulta} | Data: {consulta.DataConsulta.ToString("dd/MM/yyyy")} | Diagnóstico: {consulta.Diagnostico} | Custo: {consulta.Custo}€");
+
+                        // Informações detalhadas do médico responsável
+                        var medico = consulta.Medico; // Obtém o médico da consulta
+                        if (medico != null)
+                        {
+                            Console.WriteLine($"Médico: {medico._nome} | Idade: {medico._idade}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Médico não atribuído.");
+                        }
+
+                        Console.WriteLine("----------------------------------------");
                     }
                 }
             }
@@ -129,6 +173,7 @@ namespace Menus.Menu
                 Console.ReadKey();
             }
         }
+
 
         private static void AdicionarExames(CentroSaude centroSaude)
         {
@@ -237,6 +282,7 @@ namespace Menus.Menu
                 Console.ReadKey();
             }
         }
+
         private static void RemoverExames(CentroSaude centroSaude)
         {
             try
@@ -302,6 +348,5 @@ namespace Menus.Menu
                 Console.ReadKey();
             }
         }
-
     }
 }

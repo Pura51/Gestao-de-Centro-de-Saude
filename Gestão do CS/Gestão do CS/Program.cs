@@ -18,7 +18,8 @@ namespace GestaoCentroSaude
                 Console.WriteLine("2. Gestão de Quartos");
                 Console.WriteLine("3. Gestão de Consultas");
                 Console.WriteLine("4. Gestão de Camas");
-                Console.WriteLine("5. Alocação Automática de Paciente");
+                Console.WriteLine("5. Gestão de Médicos");
+                Console.WriteLine("6. Alocação Automática de Paciente");
                 Console.WriteLine("0. Sair");
                 Console.Write("Escolha uma opção: ");
 
@@ -39,6 +40,9 @@ namespace GestaoCentroSaude
                         MenuCamas.ExibirMenu(centroSaude);
                         break;
                     case "5":
+                        MenuMedicos.ExibirMenu(centroSaude);
+                        break;
+                    case "6":
                         Console.Write("Digite o ID do Paciente para alocar automaticamente: ");
                         if (int.TryParse(Console.ReadLine(), out int idPaciente))
                         {

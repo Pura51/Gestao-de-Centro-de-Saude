@@ -94,8 +94,25 @@ namespace Menus.Menu
                 }
                 char sexo = char.ToUpper(sexoInput[0]);
 
-                // Criando o paciente
-                Paciente paciente = new Paciente(nome, idade, sexo);
+                // Solicitando os valores de ccNum e ccNIF
+                Console.Write("Número do Cartão de Cidadão (ccNum): ");
+                int ccNum;
+                while (!int.TryParse(Console.ReadLine(), out ccNum) || ccNum <= 0)
+                {
+                    Console.WriteLine("Número do Cartão de Cidadão inválido. Insira novamente.");
+                    Console.Write("Número do Cartão de Cidadão (ccNum): ");
+                }
+
+                Console.Write("Número de Identificação Fiscal (ccNIF): ");
+                int ccNIF;
+                while (!int.TryParse(Console.ReadLine(), out ccNIF) || ccNIF <= 0)
+                {
+                    Console.WriteLine("Número de Identificação Fiscal inválido. Insira novamente.");
+                    Console.Write("Número de Identificação Fiscal (ccNIF): ");
+                }
+
+                // Criando o paciente com todos os dados
+                Paciente paciente = new Paciente(nome, idade, sexo, ccNum, ccNIF);
                 centroSaude.AdicionarPaciente(paciente);
 
                 Console.WriteLine("Paciente adicionado com sucesso!");
@@ -108,7 +125,6 @@ namespace Menus.Menu
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
             Console.ReadKey();
         }
-
 
         private static void VerPacientes(CentroSaude centroSaude)
         {
@@ -162,7 +178,7 @@ namespace Menus.Menu
             Console.ReadKey();
         }
 
-        private static void AlocarPacienteAutomatico(CentroSaude centroSaude)
+        public static void AlocarPacienteAutomatico(CentroSaude centroSaude)
         {
             try
             {

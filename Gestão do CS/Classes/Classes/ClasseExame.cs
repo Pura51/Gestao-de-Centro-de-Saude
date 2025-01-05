@@ -10,6 +10,7 @@ namespace CentroSaudeProject.Classes
         private DateTime _dataExame;
         private string _resultado;
         private TipoExame _tipo;
+        private Medico _medicoResponsavel;
         #endregion
 
         #region Propriedades
@@ -44,6 +45,11 @@ namespace CentroSaudeProject.Classes
                     throw new Exception("Tipo de Exame não Existe");
                 _tipo = value;
             }
+        }
+        public Medico MedicoResponsavel
+        {
+            get { return _medicoResponsavel; }
+            set { _medicoResponsavel = value; }
         }
         #endregion
 

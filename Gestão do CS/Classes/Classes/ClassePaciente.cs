@@ -71,15 +71,14 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Construtores
-        public Paciente(string nome, int idade, char sexo)
+        public Paciente(string nome, int idade, char sexo, int ccNum, int ccNIF)
+            : base(nome, idade, ccNum, ccNIF, sexo)  // Chama o construtor da classe base Pessoa
         {
             IdPaciente = _proximoId++;
-            Nome = nome;
-            Idade = idade;
-            Sexo = sexo;
             _consultas = new List<Consulta>();
             _tipoEstadoPaciente = TipoEstadoPaciente.EmEspera; // Estado inicial como "Em espera"
         }
+
         #endregion
 
         #region Métodos

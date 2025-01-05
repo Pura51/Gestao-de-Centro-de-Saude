@@ -10,6 +10,7 @@
         private List<Enfermeiro> _enfermeiro;
         private List<Cama> _cama; // Associa camas ao quarto
         private const int MaxCamas = 2; // Numero maximo de camas
+        private Enfermeiro _enfermeiroResponsavel;
         #endregion
 
         #region Propriedades
@@ -32,6 +33,11 @@
         public List<Cama> Camas
         {
             get { return _cama; }
+        }
+        public Enfermeiro EnfermeiroResponsavel
+        {
+            get { return _enfermeiroResponsavel; }
+            set { _enfermeiroResponsavel = value; }
         }
         #endregion
 
@@ -77,10 +83,18 @@
             _cama.Remove(cama);
         }
 
+        // Métodos para associar enfermeiros
+        public void AtribuirEnfermeiro(Enfermeiro enfermeiro)
+        {
+            _enfermeiroResponsavel = enfermeiro;
+        }
+
         public override string ToString()
         {
-            return $"Id: {IdQuarto} | Numero: {Numero}";
+            return $"Quarto: {Numero}, Enfermeiro Responsável: {_enfermeiroResponsavel?._nome ?? "Nenhum"}";
         }
+
+        
         #endregion
 
         #region Destrutores

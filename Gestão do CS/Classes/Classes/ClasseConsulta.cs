@@ -9,7 +9,7 @@
         private float _custo;
         private string _diagnostico;
         private List<Exame> _exames; // Exames associados à consulta
-        private List<Medico> _medico;
+        private Medico _medico;
 
         #endregion
 
@@ -54,16 +54,27 @@
         {
             get { return _exames; }
         }
+        public Medico Medico
+        {
+            get { return _medico; }
+            set
+            {
+                if (value == null)
+                    throw new Exception("O médico não pode ser nulo");
+                _medico = value;
+            }
+        }
         #endregion
 
         #region Construtores
-        public Consulta(DateTime dataConsulta, float custo, string diagnostico)
+        public Consulta(DateTime dataConsulta, float custo, string diagnostico, Medico medico)
         {
             IdConsulta = _proximoId++;
             DataConsulta = dataConsulta;
             Custo = custo;
             Diagnostico = diagnostico;
             _exames = new List<Exame>();
+            Medico = medico;
         }
         #endregion
 
@@ -86,10 +97,10 @@
                 throw new InvalidOperationException("O exame não foi adicionado à consulta.");
             _exames.Remove(exame);
         }
-
+        
         public override string ToString()
         {
-            return $"Id: {IdConsulta} | Data: {DataConsulta} | Custo: {Custo} | Diagnostico: {Diagnostico}";
+            return $"Id: {IdConsulta} | Médico: {_medico} | Data: {DataConsulta} | Custo: {Custo} | Diagnóstico: {Diagnostico}";
         }
         #endregion
 
