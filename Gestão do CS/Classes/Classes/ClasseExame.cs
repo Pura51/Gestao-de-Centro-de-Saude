@@ -6,7 +6,7 @@ namespace CentroSaudeProject.Classes
     {
         #region Atributos
         private static int _proximoId = 1;
-        private int _idExame;
+        public readonly int IdExame; // Atributo readonly
         private DateTime _dataExame;
         private string _resultado;
         private TipoExame _tipo;
@@ -14,58 +14,63 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Propriedades
-        public int IdExame
-        {
-            get { return _idExame; }
-            private set { _idExame = value; }
-        }
         public DateTime DataExame
         {
             get { return _dataExame; }
-            set { 
+            private set
+            {
                 if (value > DateTime.Now)
-                    throw new Exception("Data do Exame errada");
+                    throw new ArgumentException("Data do Exame não pode ser no futuro.");
                 _dataExame = value;
             }
         }
+
         public string Resultado
         {
             get { return _resultado; }
-            set { 
+            set
+            {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new Exception("Resultado do Exame não pode ser vazio");
+                    throw new ArgumentException("Resultado do Exame não pode ser vazio.");
                 _resultado = value;
             }
         }
+
         public TipoExame Tipo
         {
             get { return _tipo; }
-            set { 
+            set
+            {
                 if (!Enum.IsDefined(typeof(TipoExame), value))
-                    throw new Exception("Tipo de Exame não Existe");
+                    throw new ArgumentException("Tipo de Exame não existe.");
                 _tipo = value;
             }
         }
+
         public Medico MedicoResponsavel
         {
             get { return _medicoResponsavel; }
-            private set { _medicoResponsavel = value; }
+            private set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value), "O médico não pode ser nulo.");
+                _medicoResponsavel = value;
+            }
         }
         #endregion
 
         #region Construtores
-        public Exame(DateTime dataExame, string resultado, TipoExame tipo)
+        public Exame(DateTime dataExame, string resultado, TipoExame tipo, Medico medicoResponsavel)
         {
             IdExame = _proximoId++;
             DataExame = dataExame;
             Resultado = resultado;
             Tipo = tipo;
-            MedicoResponsavel = null;  // Inicializa sem médico
+            MedicoResponsavel = medicoResponsavel ?? throw new ArgumentNullException(nameof(medicoResponsavel), "O médico não pode ser nulo.");
         }
         #endregion
 
         #region Métodos
-        // Método para associar o médico ao exame
         public void AssociarMedico(Medico medico)
         {
             if (medico == null)
@@ -75,9 +80,9 @@ namespace CentroSaudeProject.Classes
             MedicoResponsavel = medico;
         }
 
-        public override string ToString() 
+        public override string ToString()
         {
-            return $"Id: {IdExame} | Data: {DataExame} | Resultado: {Resultado} | Tipo: {Tipo} | Médico: {(MedicoResponsavel != null ? MedicoResponsavel._nome : "Não atribuído")}";
+            return $"Id: {IdExame} | Data: {DataExame} | Resultado: {Resultado} | Tipo: {Tipo} | Médico: {MedicoResponsavel?.ToString() ?? "Não atribuído"}";
         }
         #endregion
 

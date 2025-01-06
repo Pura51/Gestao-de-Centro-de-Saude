@@ -165,8 +165,9 @@ namespace Menus.Menu
                     return;
                 }
 
+                // No caso de RemoverPaciente, se o método espera um ID:
                 var pacienteRemover = centroSaude.Pacientes[escolha - 1];
-                centroSaude.RemoverPaciente(pacienteRemover);
+                centroSaude.RemoverPaciente(pacienteRemover.IdPaciente); // Passando o ID, não o objeto paciente
                 Console.WriteLine("Paciente removido com sucesso!");
             }
             catch (Exception ex)

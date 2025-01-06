@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CentroSaudeProject.Classes
 {
@@ -9,42 +10,20 @@ namespace CentroSaudeProject.Classes
         private List<Quarto> _quartos;
         private List<Paciente> _pacientes;
         private List<Consulta> _consultas;
-        public List<Exame> _exames;
-        private List<Medico> _medico;
-        private List<Enfermeiro> _enfermeiro;
+        private List<Exame> _exames;
+        private List<Medico> _medicos; 
+        private List<Enfermeiro> _enfermeiros; 
         private List<Cama> _camas;
-
         #endregion
 
         #region Properties
-        public IReadOnlyList<Quarto> Quartos
-        {
-            get { return _quartos.AsReadOnly(); }
-        }
-        public IReadOnlyList<Paciente> Pacientes
-        {
-            get { return _pacientes.AsReadOnly(); }
-        }
-        public IReadOnlyList<Consulta> Consultas
-        {
-            get { return _consultas.AsReadOnly(); }
-        }
-        public IReadOnlyList<Exame> Exames
-        {
-            get { return _exames.AsReadOnly(); }
-        }
-        public IReadOnlyList<Medico> Medicos
-        {
-            get { return _medico.AsReadOnly(); }
-        }
-        public IReadOnlyList<Enfermeiro> Enfermeiros
-        {
-            get { return _enfermeiro.AsReadOnly(); }
-        }
-        public IReadOnlyList<Cama> Camas
-        {
-            get { return _camas.AsReadOnly(); }
-        }
+        public IReadOnlyList<Quarto> Quartos => _quartos.AsReadOnly();
+        public IReadOnlyList<Paciente> Pacientes => _pacientes.AsReadOnly();
+        public IReadOnlyList<Consulta> Consultas => _consultas.AsReadOnly();
+        public IReadOnlyList<Exame> Exames => _exames.AsReadOnly();
+        public IReadOnlyList<Medico> Medicos => _medicos.AsReadOnly();
+        public IReadOnlyList<Enfermeiro> Enfermeiros => _enfermeiros.AsReadOnly();
+        public IReadOnlyList<Cama> Camas => _camas.AsReadOnly();
         #endregion
 
         #region Construtores
@@ -54,8 +33,9 @@ namespace CentroSaudeProject.Classes
             _pacientes = new List<Paciente>();
             _consultas = new List<Consulta>();
             _exames = new List<Exame>();
-            _medico = new List<Medico>();
-            _enfermeiro = new List<Enfermeiro>();
+            _medicos = new List<Medico>(); 
+            _enfermeiros = new List<Enfermeiro>(); 
+            _camas = new List<Cama>();
         }
         #endregion
 
@@ -67,9 +47,10 @@ namespace CentroSaudeProject.Classes
             _pacientes.Add(paciente);
         }
 
-        public void RemoverPaciente(Paciente paciente)
+        public void RemoverPaciente(int idPaciente)
         {
-            if (!_pacientes.Contains(paciente))
+            var paciente = _pacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            if (paciente == null)
                 throw new Exception("O paciente não existe no centro de saúde.");
             _pacientes.Remove(paciente);
         }
@@ -93,10 +74,10 @@ namespace CentroSaudeProject.Classes
             Console.WriteLine($"Quarto {quarto.Numero} adicionado. Total de quartos: {_quartos.Count}");
         }
 
-
-        public void RemoverQuarto(Quarto quarto)
+        public void RemoverQuarto(int numeroQuarto)
         {
-            if (!_quartos.Contains(quarto))
+            var quarto = _quartos.FirstOrDefault(q => q.Numero == numeroQuarto);
+            if (quarto == null)
                 throw new Exception("O quarto não existe no centro de saúde.");
             _quartos.Remove(quarto);
         }
@@ -109,7 +90,6 @@ namespace CentroSaudeProject.Classes
                 Console.WriteLine(quarto); // ToString de Quarto será usado aqui.
             }
         }
-
         #endregion
 
         public void AlocarPacienteAutomatico(int idPaciente)
@@ -144,7 +124,6 @@ namespace CentroSaudeProject.Classes
         }
 
         #region Métodos - Consultas
-
         public void ListarConsultas()
         {
             Console.WriteLine("=== Consultas ===");
@@ -160,11 +139,9 @@ namespace CentroSaudeProject.Classes
                 throw new ArgumentNullException(nameof(consulta), "A consulta não pode ser nula.");
             _consultas.Add(consulta);
         }
-
         #endregion
 
         #region Métodos - Exames
-
         public void ListarExames()
         {
             Console.WriteLine("=== Exames ===");
@@ -173,26 +150,24 @@ namespace CentroSaudeProject.Classes
                 Console.WriteLine(exame);
             }
         }
-
         #endregion
 
         #region Métodos - Médico
-
         public void AdicionarMedico(Medico medico)
         {
-            _medico.Add(medico);
+            if (medico == null)
+                throw new ArgumentNullException(nameof(medico), "O médico não pode ser nulo.");
+            _medicos.Add(medico);
         }
-
         #endregion
 
         #region Métodos - Enfermeiros
-
         public void AdicionarEnfermeiro(Enfermeiro enfermeiro)
         {
-            _enfermeiro.Add(enfermeiro);
+            if (enfermeiro == null)
+                throw new ArgumentNullException(nameof(enfermeiro), "O enfermeiro não pode ser nulo.");
+            _enfermeiros.Add(enfermeiro);
         }
-
         #endregion
-
     }
 }

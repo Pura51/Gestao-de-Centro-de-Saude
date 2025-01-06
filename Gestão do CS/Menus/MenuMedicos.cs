@@ -117,7 +117,7 @@ namespace Menus.Menu
                 {
                     foreach (var medico in centroSaude.Medicos)
                     {
-                        Console.WriteLine($"ID: {medico.IdMedico} | Nome: {medico._nome} | Idade: {medico._idade} | Sexo: {medico._sexo}");
+                        Console.WriteLine($"ID: {medico.IdMedico} | Nome: {medico.Nome} | Idade: {medico.Idade} | Sexo: {medico.Sexo}");
                     }
                 }
             }

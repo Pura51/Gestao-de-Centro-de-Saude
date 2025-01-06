@@ -184,7 +184,7 @@ namespace Menus.Menu
 
             cama.EnfermeiroResponsavel = enfermeiro;
 
-            Console.WriteLine($"Enfermeiro {enfermeiro._nome} foi atribuído à cama {cama.NumeroCama}.");
+            Console.WriteLine($"Enfermeiro {enfermeiro.Nome} foi atribuído à cama {cama.NumeroCama}.");
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
@@ -230,7 +230,7 @@ namespace Menus.Menu
 
             quarto.EnfermeiroResponsavel = enfermeiro;
 
-            Console.WriteLine($"Enfermeiro {enfermeiro._nome} foi atribuído ao quarto {quarto.Numero}.");
+            Console.WriteLine($"Enfermeiro {enfermeiro.Nome} foi atribuído ao quarto {quarto.Numero}.");
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();
         }

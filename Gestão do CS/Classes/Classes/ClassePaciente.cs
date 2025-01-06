@@ -1,23 +1,21 @@
 ﻿using CentroSaudeProject.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace CentroSaudeProject.Classes
 {
     public class Paciente : Pessoa
     {
         #region Atributos
-        private static int _proximoId = 1; // Gera Id automaticamente
+        private static int _proximoId = 1;
         private int _idPaciente;
-        private List<Consulta> _consultas; // Consultas associadas ao paciente
-        private Cama _camaOcupada; // Nova propriedade para cama ocupada
-        private TipoEstadoPaciente _tipoEstadoPaciente; // Estado do paciente: Alta, Internado, Em espera
+        private List<Consulta> _consultas;
+        private Cama _camaOcupada;
+        private TipoEstadoPaciente _tipoEstadoPaciente;
         #endregion
 
         #region Propriedades
-        public int IdPaciente
-        {
-            get { return _idPaciente; }
-            private set { _idPaciente = value; } // Id definido apenas pela classe
-        }
+        public int IdPaciente { get; private set; }
 
         public Cama CamaOcupada
         {
@@ -31,37 +29,22 @@ namespace CentroSaudeProject.Classes
             set { _tipoEstadoPaciente = value; }
         }
 
-        public string Nome
+        public new string Nome
         {
-            get { return _nome; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new Exception("Nome não pode ser vazio");
-                _nome = value;
-            }
+            get { return base.Nome; }
+            set { base.Nome = value; }
         }
 
-        public int Idade
+        public new int Idade
         {
-            get { return _idade; }
-            set
-            {
-                if (value <= 0)
-                    throw new Exception("Idade inválida");
-                _idade = value;
-            }
+            get { return base.Idade; }
+            set { base.Idade = value; }
         }
 
-        public char Sexo
+        public new char Sexo
         {
-            get { return _sexo; }
-            set
-            {
-                if (value != 'M' && value != 'F')
-                    throw new Exception("Sexo deve ser 'M' (Masculino) ou 'F' (Feminino)");
-                _sexo = value;
-            }
+            get { return base.Sexo; }
+            set { base.Sexo = value; }
         }
 
         public IReadOnlyList<Consulta> Consultas
@@ -72,69 +55,50 @@ namespace CentroSaudeProject.Classes
 
         #region Construtores
         public Paciente(string nome, int idade, char sexo, int ccNum, int ccNIF)
-            : base(nome, idade, ccNum, ccNIF, sexo)  // Chama o construtor da classe base Pessoa
+            : base(nome, idade, ccNum, ccNIF, sexo)
         {
             IdPaciente = _proximoId++;
             _consultas = new List<Consulta>();
-            _tipoEstadoPaciente = TipoEstadoPaciente.EmEspera; // Estado inicial como "Em espera"
+            _tipoEstadoPaciente = TipoEstadoPaciente.EmEspera;
         }
-
         #endregion
 
         #region Métodos
-        /// <summary>
-        /// Atribui uma cama ao paciente
-        /// </summary>
         public void AtribuirCama(Cama cama)
         {
-            if (CamaOcupada != null)
-                throw new Exception("O paciente já possui uma cama atribuída.");
+            if (_camaOcupada != null)
+                throw new InvalidOperationException("O paciente já possui uma cama atribuída.");
             _camaOcupada = cama;
             cama.Ocupar();
             EstadoPaciente = TipoEstadoPaciente.Internado;
         }
 
-        /// <summary>
-        /// Libera a cama ocupada pelo paciente
-        /// </summary>
         public void LiberarCama()
         {
-            if (CamaOcupada == null)
-                throw new Exception("O paciente não possui uma cama atribuída.");
+            if (_camaOcupada == null)
+                throw new InvalidOperationException("O paciente não possui uma cama atribuída.");
             _camaOcupada.Libertar();
             _camaOcupada = null;
             EstadoPaciente = TipoEstadoPaciente.Alta;
         }
 
-        /// <summary>
-        /// Adiciona uma consulta ao paciente
-        /// </summary>
         public void AdicionarConsulta(Consulta consulta)
         {
             if (consulta == null)
-                throw new Exception("Consulta inválida");
+                throw new ArgumentNullException(nameof(consulta), "Consulta inválida.");
             _consultas.Add(consulta);
         }
 
-        /// <summary>
-        /// Remove uma consulta do paciente
-        /// </summary>
         public void RemoverConsulta(Consulta consulta)
         {
             if (!_consultas.Contains(consulta))
-                throw new Exception("Consulta não está associada a este paciente");
+                throw new InvalidOperationException("Consulta não está associada a este paciente.");
             _consultas.Remove(consulta);
         }
 
         public override string ToString()
         {
             return $"Id: {IdPaciente} | Nome: {Nome} | Idade: {Idade} | Sexo: {Sexo} | Estado: {EstadoPaciente}";
-        }
-        #endregion
-
-        #region Destrutores
-        ~Paciente()
-        {
         }
         #endregion
     }

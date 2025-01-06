@@ -96,7 +96,7 @@ namespace Menus.Menu
                 Console.WriteLine("Médicos disponíveis:");
                 foreach (var medico in centroSaude.Medicos)
                 {
-                    Console.WriteLine($"{medico.IdMedico} - {medico._nome}");
+                    Console.WriteLine($"{medico.IdMedico} - {medico.Nome}");
                 }
                 Console.Write("Digite o ID do médico responsável pela consulta: ");
                 if (!int.TryParse(Console.ReadLine(), out int idMedico))
@@ -139,37 +139,89 @@ namespace Menus.Menu
             try
             {
                 Console.Clear();
-                Console.WriteLine("=== Lista de Consultas ===");
+                Console.WriteLine("=== Adicionar Exames ===");
 
-                if (centroSaude.Consultas.Count == 0)
+                // Solicita o ID da consulta
+                Console.Write("ID da Consulta: ");
+                if (!int.TryParse(Console.ReadLine(), out int idConsulta))
                 {
-                    Console.WriteLine("Nenhuma consulta cadastrada.");
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
                 }
-                else
+
+                // Encontra a consulta correspondente
+                var consulta = centroSaude.Consultas.FirstOrDefault(c => c.IdConsulta == idConsulta);
+                if (consulta == null)
                 {
-                    foreach (var consulta in centroSaude.Consultas)
-                    {
-                        // Exibe informações completas da consulta, incluindo os dados do médico
-                        Console.WriteLine($"Consulta ID: {consulta.IdConsulta} | Data: {consulta.DataConsulta.ToString("dd/MM/yyyy")} | Diagnóstico: {consulta.Diagnostico} | Custo: {consulta.Custo}€");
-
-                        // Informações detalhadas do médico responsável
-                        var medico = consulta.Medico; // Obtém o médico da consulta
-                        if (medico != null)
-                        {
-                            Console.WriteLine($"Médico: {medico._nome} | Idade: {medico._idade}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Médico não atribuído.");
-                        }
-
-                        Console.WriteLine("----------------------------------------");
-                    }
+                    Console.WriteLine("Consulta não encontrada. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
                 }
+
+                // Solicita os dados necessários para criar o exame
+                Console.Write("Data do Exame (formato: dd/MM/yyyy): ");
+                if (!DateTime.TryParse(Console.ReadLine(), out DateTime dataExame))
+                {
+                    Console.WriteLine("Data inválida. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                Console.Write("Resultado do Exame: ");
+                string resultado = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(resultado))
+                {
+                    Console.WriteLine("Resultado inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                Console.WriteLine("Tipo de Exame (número correspondente):");
+                foreach (var tipo in Enum.GetValues(typeof(TipoExame)))
+                {
+                    Console.WriteLine($"{(int)tipo} - {tipo}");
+                }
+                if (!Enum.TryParse(Console.ReadLine(), out TipoExame tipoExame))
+                {
+                    Console.WriteLine("Tipo de Exame inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Solicita o médico responsável
+                Console.WriteLine("Médicos disponíveis:");
+                foreach (var medico in centroSaude.Medicos)
+                {
+                    Console.WriteLine($"{medico.IdMedico} - {medico.Nome}");
+                }
+                Console.Write("Digite o ID do médico responsável pelo exame: ");
+                if (!int.TryParse(Console.ReadLine(), out int idMedico))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                var medicoResponsavel = centroSaude.Medicos.FirstOrDefault(m => m.IdMedico == idMedico);
+                if (medicoResponsavel == null)
+                {
+                    Console.WriteLine("Médico não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Cria o objeto Exame com os dados fornecidos
+                Exame exame = new Exame(dataExame, resultado, tipoExame, medicoResponsavel);
+
+                // Adiciona o exame à consulta
+                consulta.AdicionarExame(exame);
+
+                Console.WriteLine("Exame adicionado com sucesso!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao exibir consultas: {ex.Message}");
+                Console.WriteLine($"Erro ao adicionar exame: {ex.Message}");
             }
             finally
             {
@@ -234,8 +286,31 @@ namespace Menus.Menu
                     return;
                 }
 
+                // Solicita o médico responsável
+                Console.WriteLine("Médicos disponíveis:");
+                foreach (var medico in centroSaude.Medicos)
+                {
+                    Console.WriteLine($"{medico.IdMedico} - {medico.Nome}");
+                }
+                Console.Write("Digite o ID do médico responsável pelo exame: ");
+                if (!int.TryParse(Console.ReadLine(), out int idMedico))
+                {
+                    Console.WriteLine("ID inválido. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
+                // Encontra o médico responsável
+                var medicoResponsavel = centroSaude.Medicos.FirstOrDefault(m => m.IdMedico == idMedico);
+                if (medicoResponsavel == null)
+                {
+                    Console.WriteLine("Médico não encontrado. Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    return;
+                }
+
                 // Cria o objeto Exame com os dados fornecidos
-                var exame = new Exame(dataExame, resultado, tipoExame);
+                Exame exame = new Exame(dataExame, resultado, tipoExame, medicoResponsavel);
 
                 // Adiciona o exame à consulta
                 consulta.AdicionarExame(exame);
@@ -401,7 +476,7 @@ namespace Menus.Menu
                 Console.WriteLine("Médicos disponíveis:");
                 foreach (var medico in centroSaude.Medicos)
                 {
-                    Console.WriteLine($"{medico.IdMedico} - {medico._nome}");
+                    Console.WriteLine($"{medico.IdMedico} - {medico.Nome}");
                 }
                 Console.Write("Digite o ID do médico a ser associado ao exame: ");
                 if (!int.TryParse(Console.ReadLine(), out int idMedico))
@@ -421,7 +496,7 @@ namespace Menus.Menu
 
                 // Associa o médico ao exame
                 exame.AssociarMedico(medicoResponsavel);
-                Console.WriteLine($"Médico {medicoResponsavel._nome} associado ao exame com sucesso!");
+                Console.WriteLine($"Médico {medicoResponsavel.Nome} associado ao exame com sucesso!");
             }
             catch (Exception ex)
             {

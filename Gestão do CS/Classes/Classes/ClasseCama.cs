@@ -4,60 +4,59 @@
     {
         #region Atributos
         private static int _proximoId = 1;
-        private int _idCama;
+        public readonly int IdCama; // Marcar como readonly, já que o ID não muda após a criação
         private int _numeroCama;
         private bool _disponivel;
         private Enfermeiro _enfermeiroResponsavel;
         #endregion
 
         #region Propriedades
-        public int IdCama
-        {
-            get { return _idCama; }
-            private set { _idCama = value; }
-        }
         public int NumeroCama
         {
             get { return _numeroCama; }
             set
             {
                 if (value <= 0)
-                    throw new Exception("Número da cama inválido");
+                    throw new ArgumentException("Número da cama inválido.");
                 _numeroCama = value;
             }
         }
+
         public bool Disponivel
         {
             get { return _disponivel; }
-            set { _disponivel = value; }
+            private set { _disponivel = value; }
         }
-        public Enfermeiro EnfermeiroResponsavel 
+
+        public Enfermeiro EnfermeiroResponsavel
         {
             get { return _enfermeiroResponsavel; }
-            set { _enfermeiroResponsavel = value; }
+            set
+            {
+                if (!Disponivel)
+                    throw new InvalidOperationException("Não é possível atribuir um enfermeiro a uma cama ocupada.");
+                _enfermeiroResponsavel = value;
+            }
         }
         #endregion
 
         #region Construtores
         public Cama(int numeroCama, bool disponivel)
         {
-            IdCama = _proximoId++;
+            IdCama = _proximoId++; // Incrementa automaticamente o ID
             NumeroCama = numeroCama;
             Disponivel = disponivel;
         }
         #endregion
 
-        #region Metodos
+        #region Métodos
         /// <summary>
         /// Marca a cama como ocupada.
         /// </summary>
         public void Ocupar()
         {
             if (!Disponivel)
-            {
-                Console.WriteLine("Erro: A cama já está ocupada.");
-                return; // Evita lançar a exceção
-            }
+                throw new InvalidOperationException("A cama já está ocupada.");
             Disponivel = false;
         }
 
@@ -66,20 +65,22 @@
         /// </summary>
         public void Libertar()
         {
-            if (_disponivel)
+            if (Disponivel)
                 throw new InvalidOperationException("A cama já está disponível.");
-            _disponivel = true;
+            Disponivel = true;
+            EnfermeiroResponsavel = null; // Libera o enfermeiro responsável quando a cama for liberada
         }
 
         public override string ToString()
         {
-            return $"Id: {IdCama} | Numero: {NumeroCama} | Disponivel: {Disponivel}";
+            return $"Id: {IdCama} | Número: {NumeroCama} | Disponível: {Disponivel} | Enfermeiro Responsável: {(_enfermeiroResponsavel?.Nome ?? "Nenhum")}";
         }
         #endregion
 
         #region Destrutores
         ~Cama()
         {
+            // Destruição do objeto Cama se necessário
         }
         #endregion
     }

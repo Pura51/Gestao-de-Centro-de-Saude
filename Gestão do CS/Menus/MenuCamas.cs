@@ -216,7 +216,7 @@ namespace Menus.Menu
             }
 
             cama.EnfermeiroResponsavel = enfermeiro;
-            Console.WriteLine($"Enfermeiro {enfermeiro._nome} foi atribuído à cama {cama.NumeroCama}.");
+            Console.WriteLine($"Enfermeiro {enfermeiro.Nome} foi atribuído à cama {cama.NumeroCama}.");
         }
 
     }
