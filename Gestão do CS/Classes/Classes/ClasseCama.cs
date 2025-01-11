@@ -1,6 +1,6 @@
 ﻿namespace CentroSaudeProject.Classes
 {
-    public class Cama
+    public class Cama 
     {
         #region Atributos
         private static int _proximoId = 1;

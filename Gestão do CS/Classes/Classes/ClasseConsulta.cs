@@ -1,6 +1,6 @@
 ﻿namespace CentroSaudeProject.Classes
 {
-    public class Consulta
+    public class Consulta : IAdicionar<Exame>, IRemover<Exame>
     {
         #region Atributos
         private static int _proximoId = 1;
@@ -76,14 +76,14 @@
         #endregion
 
         #region Métodos
-        public void AdicionarExame(Exame exame)
+        public void Adicionar(Exame exame)
         {
             if (_exames.Contains(exame))
                 throw new InvalidOperationException("O exame já foi adicionado à consulta.");
             _exames.Add(exame);
         }
 
-        public void RemoverExame(Exame exame)
+        public void Remover(Exame exame)
         {
             if (!_exames.Contains(exame))
                 throw new InvalidOperationException("O exame não foi adicionado à consulta.");

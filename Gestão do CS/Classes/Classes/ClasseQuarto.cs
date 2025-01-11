@@ -1,6 +1,6 @@
 ﻿namespace CentroSaudeProject.Classes
 {
-    public class Quarto
+    public class Quarto : IAdicionar<Cama>, IRemover<Cama>
     {
         #region Atributos
         private static int _proximoId = 1; // Gera Id automaticamente
@@ -53,7 +53,7 @@
         /// <summary>
         /// Adiciona uma cama ao quarto.
         /// </summary>
-        public void AdicionarCama(Cama cama)
+        public void Adicionar(Cama cama)
         {
             if (_camas.Count >= MaxCamas)
                 throw new InvalidOperationException("Número máximo de camas atingido.");
@@ -75,7 +75,7 @@
         /// <summary>
         /// Remove uma cama do quarto.
         /// </summary>
-        public void RemoverCama(Cama cama)
+        public void Remover(Cama cama)
         {
             if (!_camas.Contains(cama))
                 throw new InvalidOperationException("A cama não existe neste quarto.");

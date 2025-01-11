@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CentroSaudeProject.Classes
 {
-    public class Paciente : Pessoa
+    public class Paciente : Pessoa, IAdicionar<Consulta>, IRemover<Consulta>
     {
         #region Atributos
         private static int _proximoId = 1;
@@ -82,14 +82,14 @@ namespace CentroSaudeProject.Classes
             EstadoPaciente = TipoEstadoPaciente.Alta;
         }
 
-        public void AdicionarConsulta(Consulta consulta)
+        public void Adicionar(Consulta consulta)
         {
             if (consulta == null)
                 throw new ArgumentNullException(nameof(consulta), "Consulta inválida.");
             _consultas.Add(consulta);
         }
 
-        public void RemoverConsulta(Consulta consulta)
+        public void Remover(Consulta consulta)
         {
             if (!_consultas.Contains(consulta))
                 throw new InvalidOperationException("Consulta não está associada a este paciente.");

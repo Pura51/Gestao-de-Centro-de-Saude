@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CentroSaudeProject.Classes
 {
-    public class CentroSaude
+    public class CentroSaude : IAdicionar<Paciente>, IRemover<Paciente>, IAdicionar<Quarto>, IRemover<Quarto>, IAdicionar<Consulta>, IAdicionar<Medico>, IAdicionar<Enfermeiro>
     {
         #region Atributos
         private List<Quarto> _quartos;
@@ -40,18 +40,17 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Métodos - Pacientes
-        public void AdicionarPaciente(Paciente paciente)
+         public void Adicionar(Paciente paciente)
         {
             if (paciente == null)
                 throw new ArgumentNullException(nameof(paciente), "O paciente não pode ser nulo.");
             _pacientes.Add(paciente);
         }
 
-        public void RemoverPaciente(int idPaciente)
+        public void Remover(Paciente paciente)
         {
-            var paciente = _pacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
             if (paciente == null)
-                throw new Exception("O paciente não existe no centro de saúde.");
+                throw new ArgumentNullException(nameof(paciente), "O paciente não pode ser nulo.");
             _pacientes.Remove(paciente);
         }
 
@@ -66,7 +65,7 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Métodos - Quartos
-        public void AdicionarQuarto(Quarto quarto)
+        public void Adicionar(Quarto quarto)
         {
             if (quarto == null)
                 throw new ArgumentNullException(nameof(quarto), "O quarto não pode ser nulo.");
@@ -74,11 +73,10 @@ namespace CentroSaudeProject.Classes
             Console.WriteLine($"Quarto {quarto.Numero} adicionado. Total de quartos: {_quartos.Count}");
         }
 
-        public void RemoverQuarto(int numeroQuarto)
+         public void Remover(Quarto quarto)
         {
-            var quarto = _quartos.FirstOrDefault(q => q.Numero == numeroQuarto);
             if (quarto == null)
-                throw new Exception("O quarto não existe no centro de saúde.");
+                throw new ArgumentNullException(nameof(quarto), "O quarto não pode ser nulo.");
             _quartos.Remove(quarto);
         }
 
@@ -133,7 +131,7 @@ namespace CentroSaudeProject.Classes
             }
         }
 
-        public void AdicionarConsulta(Consulta consulta)
+        public void Adicionar(Consulta consulta)
         {
             if (consulta == null)
                 throw new ArgumentNullException(nameof(consulta), "A consulta não pode ser nula.");
@@ -153,7 +151,7 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Métodos - Médico
-        public void AdicionarMedico(Medico medico)
+        public void Adicionar(Medico medico)
         {
             if (medico == null)
                 throw new ArgumentNullException(nameof(medico), "O médico não pode ser nulo.");
@@ -162,7 +160,7 @@ namespace CentroSaudeProject.Classes
         #endregion
 
         #region Métodos - Enfermeiros
-        public void AdicionarEnfermeiro(Enfermeiro enfermeiro)
+        public void Adicionar(Enfermeiro enfermeiro)
         {
             if (enfermeiro == null)
                 throw new ArgumentNullException(nameof(enfermeiro), "O enfermeiro não pode ser nulo.");
